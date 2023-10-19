@@ -11,6 +11,7 @@ using CADTools;
 using Autodesk.AutoCAD.DatabaseServices;
 using CADTools.PromptTools;
 using CADTools.EditTools;
+using CADTools.JigTools;
 
 namespace C用户交互
 {
@@ -200,11 +201,41 @@ namespace C用户交互
                 radius = pdResult.Value;
             }
 
-            Circle circle = new Circle(centerPoint,Vector3d.ZAxis,radius);
+            Circle circle = new Circle(centerPoint, Vector3d.ZAxis, radius);
             database.AddEntityToModelSpace(circle);
         }
 
 
+        [CommandMethod("CircleJigDemo")]
+        public void CircleJigDemo()
+        {
+
+            Editor editor = Application.DocumentManager.MdiActiveDocument.Editor;
+            Database database = HostApplicationServices.WorkingDatabase;
+
+            Point3d centerPoint = new Point3d();
+
+            //获取圆心点
+            PromptPointResult ppr = editor.GetPoint("\n 选择圆心：");
+            if (ppr.Status == PromptStatus.OK)
+            {
+                centerPoint = ppr.Value;
+            }
+            else
+            {
+                return;
+            }
+
+            //跳动圆类
+            CircleJig circleJig = new CircleJig(centerPoint);
+            //拖动跳动圆
+            PromptResult pResult = editor.Drag(circleJig);
+            //确定后获取并添加圆图形
+            if (pResult.Status==PromptStatus.OK)
+            {
+                database.AddEntityToModelSpace(circleJig.GetCircle());
+            }
+        }
 
     }
 
