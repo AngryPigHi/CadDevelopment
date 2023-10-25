@@ -139,6 +139,38 @@ namespace C用户交互
         }
 
 
+        [CommandMethod("SeeLeader")]
+        public void SeeLeader()
+        {
+            Editor editor = Application.DocumentManager.MdiActiveDocument.Editor;
+            Database database = HostApplicationServices.WorkingDatabase;
+
+            //1.获取输入的字符串
+            PromptStringOptions psOption = new PromptStringOptions("\n 请输入点集字符串：");
+            psOption.AllowSpaces = true;
+
+            PromptResult pResult = editor.GetString(psOption);
+            if (pResult.Status == PromptStatus.OK)
+            {
+                //2.将字符串转为点集
+                string pointsString = pResult.StringResult;
+                if (!string.IsNullOrWhiteSpace(pointsString))
+                {
+                    List<Point3dCanSet> point2Ds = JsonConvert.DeserializeObject<List<Point3dCanSet>>(pointsString);
+
+                    Leader leader = new Leader();
+                    leader.SetDatabaseDefaults();
+                    foreach (var point in point2Ds)
+                    {
+                        leader.AppendVertex(new Point3d(point.X, point.Y, point.Z));
+                    }
+                    leader.HasArrowHead = true;
+                    leader.ColorIndex = 3;
+
+                    database.AddEntityToModelSpace(leader);
+                }
+            }
+        }
 
 
     }
@@ -148,4 +180,12 @@ namespace C用户交互
         public double X { get; set; }
         public double Y { get; set; }
     }
+
+    public class Point3dCanSet
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+        public double Z { get; set; }
+    }
+
 }
