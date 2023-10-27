@@ -60,6 +60,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DefineMoveExam.cs" />
+    <Compile Include="EntityOtherHelper.cs" />
+    <Compile Include="EntityTestExam.cs" />
     <Compile Include="PromptExam.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SeeEntityExam.cs" />

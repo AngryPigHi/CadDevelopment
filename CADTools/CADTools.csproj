@@ -59,6 +59,7 @@
     <Compile Include="GraphTools\PolylineTools.cs" />
     <Compile Include="HatchTools\HatchTools.cs" />
     <Compile Include="JigTools\CircleJig.cs" />
+    <Compile Include="JigTools\MoveJig.cs" />
     <Compile Include="OperateTools\AddEntityTools.cs" />
     <Compile Include="PromptTools\PromptTools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
