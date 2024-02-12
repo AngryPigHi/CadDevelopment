@@ -308,7 +308,27 @@ namespace CADTools.LayerTools
             }
         }
 
-
+        /// <summary>
+        /// 删除未使用的图层
+        /// </summary>
+        /// <param name="db"></param>
+        public static void DeleteNotUsedLayers(this Database db)
+        {
+            using (Transaction trans = db.TransactionManager.StartTransaction())
+            {
+                LayerTable lt = (LayerTable)trans.GetObject(db.LayerTableId, OpenMode.ForRead);
+                lt.GenerateUsageData();//更新数据
+                foreach (ObjectId recordId in lt)
+                {
+                    LayerTableRecord record = (LayerTableRecord)recordId.GetObject(OpenMode.ForWrite);
+                    if (!record.IsUsed)
+                    {
+                        record.Erase();
+                    }
+                }
+                trans.Commit();
+            }
+        }
 
 
     }
