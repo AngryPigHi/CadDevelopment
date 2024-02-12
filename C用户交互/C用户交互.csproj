@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DefineMoveExam.cs" />
+    <Compile Include="DefineTextExam.cs" />
     <Compile Include="EntityOtherHelper.cs" />
     <Compile Include="EntityTestExam.cs" />
     <Compile Include="PromptExam.cs" />

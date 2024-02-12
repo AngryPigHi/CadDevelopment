@@ -60,6 +60,7 @@
     <Compile Include="HatchTools\HatchTools.cs" />
     <Compile Include="JigTools\CircleJig.cs" />
     <Compile Include="JigTools\MoveJig.cs" />
+    <Compile Include="LayerTools\LayerTool.cs" />
     <Compile Include="OperateTools\AddEntityTools.cs" />
     <Compile Include="PromptTools\PromptTools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

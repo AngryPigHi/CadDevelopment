@@ -14,7 +14,6 @@ namespace C用户交互
 
 
 
-
         /// <summary>
         /// 将多段线转为线段集合（不考虑曲线）
         /// </summary>
@@ -65,8 +64,10 @@ namespace C用户交互
             Vector3d vector1 = line1.StartPoint.GetVectorTo(line1.EndPoint);
             Vector3d vector2 = line2.StartPoint.GetVectorTo(line2.EndPoint);
 
-            //向量重合
-            if (vector1.GetAngleTo(vector2) == 0 || vector1.GetAngleTo(vector2) == Math.PI)
+            double angle = vector1.GetAngleTo(vector2);
+
+            //判断 向量重合
+            if (Math.Abs(angle) < 0.001 || Math.Abs(angle - Math.PI) < 0.001 || Math.Abs(angle - 2 * Math.PI) < 0.01)
             {
                 //端点在线上(不含端点)
                 if (line1.StartPoint.GetDistanceBetweenTwoPoints(line2.StartPoint) + line1.StartPoint.GetDistanceBetweenTwoPoints(line2.EndPoint) <= line2.Length)
@@ -76,19 +77,27 @@ namespace C用户交互
                         result = true;
                     }
                 }
-                else if (line1.EndPoint.GetDistanceBetweenTwoPoints(line2.StartPoint) + line1.EndPoint.GetDistanceBetweenTwoPoints(line2.EndPoint) <= line2.Length)
+
+                if (line1.EndPoint.GetDistanceBetweenTwoPoints(line2.StartPoint) + line1.EndPoint.GetDistanceBetweenTwoPoints(line2.EndPoint) <= line2.Length)
                 {
                     if (line1.EndPoint.GetDistanceBetweenTwoPoints(line2.StartPoint) != 0 && line1.EndPoint.GetDistanceBetweenTwoPoints(line2.EndPoint) != 0)
                     {
                         result = true;
                     }
                 }
+
+                //完全重合的情况
+                if ((line1.StartPoint.GetDistanceBetweenTwoPoints(line2.StartPoint) == 0 || line1.StartPoint.GetDistanceBetweenTwoPoints(line2.EndPoint) == 0) && (line1.EndPoint.GetDistanceBetweenTwoPoints(line2.StartPoint) == 0 || line1.EndPoint.GetDistanceBetweenTwoPoints(line2.EndPoint) == 0))
+                {
+                    result = true;
+                }
+
             }
             return result;
         }
 
         /// <summary>
-        ///  判断两个多段线是否有线段重合部分（重合部分必须有长度）
+        ///  判断两个多段线是否有线段重合部分（重合部分必须有长度）(不考虑曲线)
         /// </summary>
         /// <param name="pLine1">第一个多段线</param>
         /// <param name="pLine2">第二个多段线</param>
@@ -106,6 +115,13 @@ namespace C用户交互
                     if (line1.IsLineInserctCoincide(line2))
                     {
                         result = true;
+                        break;
+                    }
+
+                    if (line2.IsLineInserctCoincide(line1))
+                    {
+                        result = true;
+                        break;
                     }
                 }
             }
