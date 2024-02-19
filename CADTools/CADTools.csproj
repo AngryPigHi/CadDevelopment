@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseTools.cs" />
+    <Compile Include="BlockTools\BlockTool.cs" />
     <Compile Include="EditTools\EditEntityTools.cs" />
     <Compile Include="GraphTools\ArcTools.cs" />
     <Compile Include="GraphTools\CircleTools.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="OperateTools\AddEntityTools.cs" />
     <Compile Include="PromptTools\PromptTools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StyleTools\StyleTool.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
